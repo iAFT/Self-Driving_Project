@@ -28,7 +28,7 @@ int main(int argc,char **argv)
 	cout<<"Connecting to camera"<<endl;
 	if (!Camera.open())
 	{
-            cout<<"Failed to Connect"<<endl;
+    cout<<"Failed to Connect"<<endl;
             
      }
      
