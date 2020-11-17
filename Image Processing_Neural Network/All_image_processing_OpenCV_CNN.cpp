@@ -8,15 +8,16 @@ using namespace std;
 using namespace cv;
 using namespace raspicam;
 
-Mat frame, Matrix, framePers, frameGray, frameThresh, frameEdge, frameFinal;
+Mat frame; 
+//~ Matrix, framePers, frameGray, frameThresh, frameEdge, frameFinal;
 
 RaspiCam_Cv Camera;
 
-Point2f Source[] = {Point2f(40,145),Point2f(360,145),Point2f(10,195), Point2f(390,195)};
-Point2f Destination[] = {Point2f(100,0),Point2f(280,0),Point2f(100,240), Point2f(280,240)};
+Point2f Source[] = {Point2f(15,160),Point2f(300,160),Point2f(0,210), Point2f(330,210)};
+//~ Point2f Destination[] = {Point2f(100,0),Point2f(280,0),Point2f(100,240), Point2f(280,240)};
 
 
- void Setup ( int argc,char **argv, RaspiCam_Cv &Camera )
+void Setup ( int argc,char **argv, RaspiCam_Cv &Camera )
   {
     Camera.set ( CAP_PROP_FRAME_WIDTH,  ( "-w",argc,argv,400 ) );
     Camera.set ( CAP_PROP_FRAME_HEIGHT,  ( "-h",argc,argv,240 ) );
@@ -30,7 +31,7 @@ Point2f Destination[] = {Point2f(100,0),Point2f(280,0),Point2f(100,240), Point2f
 
 void Capture()
 {
-	Camera.grab();
+    Camera.grab();
     Camera.retrieve( frame);
     cvtColor(frame, frame, COLOR_BGR2RGB);
 }
@@ -43,18 +44,18 @@ void Perspective()
 	line(frame,Source[2], Source[0], Scalar(0,0,255), 2);
 	
 	
-	Matrix = getPerspectiveTransform(Source, Destination);
-	warpPerspective(frame, framePers, Matrix, Size(360,240));
+	//~ Matrix = getPerspectiveTransform(Source, Destination);
+	//~ warpPerspective(frame, framePers, Matrix, Size(360,240));
 }
 
-void Threshold()
-{
-	cvtColor(framePers, frameGray, COLOR_RGB2GRAY);
-	inRange(frameGray, 240, 255, frameThresh);
-	Canny(frameGray,frameEdge, 900, 900, 3, false);
-	add(frameThresh, frameEdge, frameFinal);
-	cvtColor(frameFinal, frameFinal, COLOR_GRAY2RGB);
-}
+//~ void Threshold()
+//~ {
+	//~ cvtColor(framePers, frameGray, COLOR_RGB2GRAY);
+	//~ inRange(frameGray, 240, 255, frameThresh);
+	//~ Canny(frameGray,frameEdge, 900, 900, 3, false);
+	//~ add(frameThresh, frameEdge, frameFinal);
+	//~ cvtColor(frameFinal, frameFinal, COLOR_GRAY2RGB);
+//~ }
 
 
 
@@ -80,22 +81,22 @@ int main(int argc,char **argv)
 
     Capture();
     Perspective();
-    Threshold();
+    //~ Threshold();
     
     namedWindow("orignal", WINDOW_KEEPRATIO);
     moveWindow("orignal", 0, 100);
     resizeWindow("orignal", 640, 480);
     imshow("orignal", frame);
     
-    namedWindow("Perspective", WINDOW_KEEPRATIO);
-    moveWindow("Perspective", 640, 100);
-    resizeWindow("Perspective", 640, 480);
-    imshow("Perspective", framePers);
+    //~ namedWindow("Perspective", WINDOW_KEEPRATIO);
+    //~ moveWindow("Perspective", 640, 100);
+    //~ resizeWindow("Perspective", 640, 380);
+    //~ imshow("Perspective", framePers);
     
-    namedWindow("Final", WINDOW_KEEPRATIO);
-    moveWindow("Final", 1280, 100);
-    resizeWindow("Final", 640, 480);
-    imshow("Final", frameFinal);
+    //~ namedWindow("Final", WINDOW_KEEPRATIO);
+    //~ moveWindow("Final", 1280, 100);
+    //~ resizeWindow("Final", 640, 480);
+    //~ imshow("Final", frameFinal);
     
     
     waitKey(1);
